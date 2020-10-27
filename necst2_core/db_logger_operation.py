@@ -22,10 +22,11 @@ class db_logger_operation(object):
 
     def callback_path(self, req):
         if req.data != '':
+            print('path OK!')
             self.db_path = ''
             self.data_list = []
-            self.close_tables()
-            self.db = necstdb.opendb(self.db_dir / req.data, mode = 'w')
+            #self.close_tables()
+            #self.db = necstdb.opendb(self.db_dir / req.data, mode = 'w')
             self.db_path = req.data
             time.sleep(0.1)
 
@@ -43,6 +44,7 @@ class db_logger_operation(object):
     def regist(self, data):
         if self.db_path != '':
             self.data_list.append(data)
+            print('OK')
             pass
         return
 

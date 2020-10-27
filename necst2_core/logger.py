@@ -3,6 +3,8 @@
 node_name = 'logger'
 
 import time
+import sys
+sys.path.append('/home/telescopio/ros2/src/necst2_core/necst2_core/')
 import db_logger_operation
 from functools import partial
 import rclpy
@@ -12,7 +14,6 @@ class Logger(object):
     
     def __init__(self):
         self.node = rclpy.create_node(node_name)
-        
         self.db_log = db_logger_operation.db_logger_operation()
         
         self.ignore_topics = [
@@ -42,19 +43,17 @@ class Logger(object):
         self.node.create_subscription(
             topic_type,
             topic_name,
-            partial(self.callback, topic_name),
+            partial(self.callback, topic_name, topic_type),
             1
             )
 
-    def callback(self, topic_name, req):
-        print(req.SLOT_TYPES)
-        #slots = [{'key': key,
-        #          'type': type_,
-        #          'value': req.__getattribute__(key)}
-        #        for key, type_
-        #        in zip(req.__slots__, req._slot_types)]
-
-        data = {'topic': topic_name, 'received_time': time.time(), 'data': req.data}
+    def callback(self, topic_name, topic_type, req):
+        data = {
+            'topic_name': topic_name, 
+            'topic_type': topic_type,
+            'received_time': time.time(), 
+            'data': req.data
+            }
 
         self.db_log.regist(data)
         return
