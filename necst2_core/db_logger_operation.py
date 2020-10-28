@@ -22,7 +22,6 @@ class db_logger_operation(object):
 
     def callback_path(self, req):
         if req.data != '':
-            print('path OK!')
             self.db_path = ''
             self.data_list = []
             self.close_tables()
@@ -57,7 +56,7 @@ class db_logger_operation(object):
 
             d = self.data_list.pop(0)
 
-            table_name = d['topic'].replace('/', '-').strip('-')
+            table_name = d['topic_name'].replace('/', '-').strip('-')
             table_data = [d['received_time']]
             table_info = [{'key': 'received_time',
                            'format': 'd',
