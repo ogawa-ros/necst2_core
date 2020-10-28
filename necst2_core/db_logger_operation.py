@@ -135,7 +135,7 @@ class db_logger_operation(object):
                     dlen = len(slot['value'])
                     info['format'] = '{0:d}{1:s}'.format(dlen, slot['value'].typecode)
                     info['size'] *= dlen
-                    table_data += slot['value']
+                    table_data +=list(slot['value'])
                 else:
                     table_data += [slot['value']]
                     pass
