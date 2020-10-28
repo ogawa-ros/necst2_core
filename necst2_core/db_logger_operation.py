@@ -65,46 +65,46 @@ class db_logger_operation(object):
 
             for slot in d['slots']:
                 print(slot)
-                if slot['type'].startswith('bool'):
+                if slot['type'] in 'bool':
                     info = {'format': 'c', 'size': 1}
 
-                elif slot['type'].startswith('byte[]'):
+                elif slot['type'] in 'byte[]':
                     continue
 
-                elif slot['type'].startswith('byte'):
+                elif slot['type'] in 'byte':
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
 
-                elif slot['type'].startswith('char[]'):
+                elif slot['type'] in 'char[]':
                     continue
 
-                elif slot['type'].startswith('char'):
+                elif slot['type'] in 'char':
                     info = {'format': 'c', 'size': 1}
                     if isinstance(slot['value'], str):
                         slot['value'] = slot['value'].encode()
                         pass
 
-                elif slot['type'].startswith('float'):
+                elif slot['type'] in 'float':
                     info = {'format': 'f', 'size': 4}
 
-                elif slot['type'].startswith('double'):
+                elif slot['type'] in 'double':
                     info = {'format': 'd', 'size': 8}
 
-                elif slot['type'].startswith('int8'):
+                elif slot['type'] in 'int8':
                     info = {'format': 'b', 'size': 1}
 
-                elif slot['type'].startswith('int16'):
+                elif slot['type'] in 'int16':
                     info = {'format': 'h', 'size': 2}
 
-                elif slot['type'].startswith('int32'):
+                elif slot['type'] in 'int32':
                     info = {'format': 'i', 'size': 4}
 
-                elif slot['type'].startswith('int64'):
+                elif slot['type'] in 'int64':
                     info = {'format': 'q', 'size': 8}
 
-                elif slot['type'].startswith('string[]'):
+                elif slot['type'] in 'string[]':
                     continue
 
-                elif slot['type'].startswith('string'):
+                elif slot['type'] in 'string':
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
                     if len(slot['value'])%4 == 0:
                         str_size = len(slot['value'])
@@ -116,16 +116,16 @@ class db_logger_operation(object):
                         slot['value'] = slot['value'].encode()
                         pass
 
-                elif slot['type'].startswith('uint8'):
+                elif slot['type'] in 'uint8':
                     info = {'format': 'B', 'size': 1}
 
-                elif slot['type'].startswith('unit16'):
+                elif slot['type'] in 'unit16':
                     info = {'format': 'H', 'size': 2}
 
-                elif slot['type'].startswith('unit32'):
+                elif slot['type'] in 'unit32':
                     info = {'format': 'I', 'size': 4}
 
-                elif slot['type'].startswith('unit64'):
+                elif slot['type'] in 'unit64':
                     info = {'format': 'Q', 'size': 8}
                 else:
                     continue
@@ -133,7 +133,7 @@ class db_logger_operation(object):
                 if isinstance(slot['value'], array.array):
                     # for MultiArray
                     dlen = len(slot['value'])
-                    info['format'] = '{0:d}{1:s}'.format(dlen, slot['value'].typecode)
+                    info['format'] = '{0:d}{1:s}'.format(dlen, info['format'])
                     info['size'] *= dlen
                     table_data +=list(slot['value'])
                 else:
