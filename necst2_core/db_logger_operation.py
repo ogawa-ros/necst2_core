@@ -105,6 +105,7 @@ class db_logger_operation(object):
                     continue
 
                 elif slot['type'] in 'string':
+                    print('ok')
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
                     if len(slot['value'])%4 == 0:
                         str_size = len(slot['value'])
