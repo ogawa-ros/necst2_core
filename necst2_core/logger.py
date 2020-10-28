@@ -11,21 +11,22 @@ import rclpy
 import std_msgs.msg
 
 class Logger(object):
-    
+
     def __init__(self):
         self.node = rclpy.create_node(node_name)
         self.db_log = db_logger_operation.db_logger_operation()
-        
         self.ignore_topics = [
                         '/rosout',
                         '/parameter_events',
                         ]
-        
+        self.ignore_keys = [
+                        'layout'
+                        ]
+
         self.sub_path = self.node.create_subscription(std_msgs.msg.String,'/logger_path',self.callback_path,1,)
 
         self.node.create_timer(1,self.loop)
-    
-    #old logger function
+
     def get_current_topic_list(self):
         topic_list = self.node.get_topic_names_and_types()
         for topic in topic_list[:]:
@@ -46,18 +47,30 @@ class Logger(object):
             partial(self.callback, topic_name, topic_type),
             1
             )
+        return
 
     def callback(self, topic_name, topic_type, req):
+        for key,type in req.get_field_and_field_types().items():
+            if key not in self.ignore_keys:
+                slots = [{
+                    'key': key,
+                    'type':type,
+                    'value': req.data  #if req is not defalut msg type, error!
+                    }]
+
         data = {
-            'topic_name': topic_name, 
-            'topic_type': topic_type,
-            'received_time': time.time(), 
-            'data': req.data
+            'topic_name': topic_name,
+            'received_time': time.time(),
+            'slots': slots
             }
 
         self.db_log.regist(data)
         return
 
+        #old db_logger_operation function
+    def callback_path(self, req):
+        self.db_log.callback_path(req)
+        return
 
     def loop(self):
         self.subscribing_topic_list = []
@@ -68,15 +81,8 @@ class Logger(object):
                 self.subscribing_topic_list.append(topic)
                 pass
             continue
-
-
-    #old db_logger_operation function
-    def callback_path(self, req):
-        self.db_log.callback_path(req)
         return
 
-
-        
 def main():
     rclpy.init()
     logger = Logger()
@@ -87,4 +93,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
