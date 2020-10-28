@@ -6,6 +6,7 @@ import time
 import threading
 import necstdb
 import pathlib
+import array
 import std_msgs.msg
 
 class db_logger_operation(object):
@@ -129,7 +130,7 @@ class db_logger_operation(object):
                 else:
                     continue
 
-                if len(slot['value']) > 1 and not slot['type'].startswith('string'):
+                if isinstance(slot['value'], array.array):
                     # for MultiArray
                     dlen = len(slot['value'])
                     info['format'] = '{0:d}{1:s}'.format(dlen, slot['value'].typecode)
