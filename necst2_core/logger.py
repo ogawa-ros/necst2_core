@@ -50,7 +50,7 @@ class Logger(object):
         return
 
     def callback(self, topic_name, topic_type, req):
-        for key,type in req.get_field_and_field_types().items():
+        for key,type in req.get_fields_and_field_types().items():
             if key not in self.ignore_keys:
                 slots = [{
                     'key': key,
