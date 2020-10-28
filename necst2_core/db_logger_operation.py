@@ -64,7 +64,6 @@ class db_logger_operation(object):
                            'size': 8}]
 
             for slot in d['slots']:
-                print(slot)
                 if 'bool' in slot['type']:
                     info = {'format': 'c', 'size': 1}
 
@@ -105,7 +104,6 @@ class db_logger_operation(object):
                     continue
 
                 elif 'string' in slot['type']:
-                    print('ok')
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
                     if len(slot['value'])%4 == 0:
                         str_size = len(slot['value'])
@@ -153,7 +151,6 @@ class db_logger_operation(object):
 
                 self.table_dict[table_name] = self.db.open_table(table_name, mode='ab')
                 pass
-            print(*table_data)
             self.table_dict[table_name].append(*table_data)
             continue
         return
