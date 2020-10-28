@@ -104,7 +104,6 @@ class db_logger_operation(object):
                     continue
 
                 elif slot['type'].startswith('string'):
-                    prin(slot)
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
                     if len(slot['value'])%4 == 0:
                         str_size = len(slot['value'])
@@ -130,7 +129,7 @@ class db_logger_operation(object):
                 else:
                     continue
 
-                if len(slot['value']) > 1:
+                if len(slot['value']) > 1 and not slot['type'].startswith('string'):
                     # for MultiArray
                     dlen = len(slot['value'])
                     info['format'] = '{0:d}{1:s}'.format(dlen, slot['value'].typecode)
