@@ -63,6 +63,7 @@ class db_logger_operation(object):
                            'size': 8}]
 
             for slot in d['slots']:
+                print(slot)
                 if slot['type'].startswith('bool'):
                     info = {'format': 'c', 'size': 1}
 
@@ -103,6 +104,7 @@ class db_logger_operation(object):
                     continue
 
                 elif slot['type'].startswith('string'):
+                    prin(slot)
                     info = {'format': '{0}s'.format(len(slot['value'])), 'size': len(slot['value'])}
                     if len(slot['value'])%4 == 0:
                         str_size = len(slot['value'])
