@@ -55,6 +55,7 @@ class db_logger_operation(object):
                 time.sleep(0.01)
                 continue
 
+            print(len(data_list))
             d = self.data_list.pop(0)
 
             table_name = d['topic_name'].replace('/', '-').strip('-')
@@ -152,5 +153,6 @@ class db_logger_operation(object):
                 self.table_dict[table_name] = self.db.open_table(table_name, mode='ab')
                 pass
             self.table_dict[table_name].append(*table_data)
+            print('write OK')
             continue
         return
