@@ -152,7 +152,7 @@ class db_logger_operation(object):
 
                 self.table_dict[table_name] = self.db.open_table(table_name, mode='ab')
                 pass
-
+            print(*table_data)
             self.table_dict[table_name].append(*table_data)
             continue
         return
